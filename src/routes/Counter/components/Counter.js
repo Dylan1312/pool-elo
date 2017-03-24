@@ -10,8 +10,13 @@ class Counter extends React.Component {
       playerTwo: "",
       result: ""
     }
+
+    this.baseState = this.state
   }
 
+  resetState(){
+    this.state = this.baseState
+  }
   render() {
 
     let self = this;
@@ -26,11 +31,7 @@ class Counter extends React.Component {
           self.state.result
         )
 
-        this.state = {
-          playerOne: "",
-          playerTwo: "",
-          result: ""
-        }
+        self.resetState()
       }
     }
 
