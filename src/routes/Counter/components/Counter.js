@@ -44,45 +44,54 @@ class Counter extends React.Component {
     return (
       <div style={{margin: '0 auto'}}>
         <h2>Add a match</h2>
-        <label >Player One</label>
+        <div className='form form-inline'>
+          <div className='form-group'>
+            <label >Player One</label>
 
-        <select name="playerOne"
-                onChange={handleChange}
-                value={this.state.playerOne}>
-          <option value="">Choose</option>
-          {props.players.filter((player) => player.name != this.state.playerTwo).map(
-            player => <option key={player.name}
-                              value={player.name}>{player.name}</option>
-          )}
-        </select>
-        <label>Player Two</label>
-        <select
-          name="playerTwo"
-          onChange={handleChange}
-          value={this.state.playerTwo}>
-          <option value="">Choose</option>
-          {props.players.filter((player) => player.name != this.state.playerOne).map(
-            player => <option key={player.name}
-                              value={player.name}>{player.name}</option>
-          )}
-        </select>
-        <label>Winner</label>
-        <select name="result" onChange={handleChange} value={this.state.result}>
-          <option value=""></option>
-          <option value={self.state.playerOne}>{self.state.playerOne}</option>
-          <option value={self.state.playerTwo}>{self.state.playerTwo}</option>
-        </select>
-        <button className='btn btn-default' onClick={submitMatch}>Submit
-        </button>
+            <select name="playerOne" className='form-control'
+                    onChange={handleChange}
+                    value={this.state.playerOne}>
+              <option value="">Choose</option>
+              {props.players.filter((player) => player.name != this.state.playerTwo).map(
+                player => <option key={player.name}
+                                  value={player.name}>{player.name}</option>
+              )}
+            </select>
+          </div>
+          <div className='form-group'>
+            <label>Player Two</label>
+            <select
+              name="playerTwo" className='form-control'
+              onChange={handleChange}
+              value={this.state.playerTwo}>
+              <option value="">Choose</option>
+              {props.players.filter((player) => player.name != this.state.playerOne).map(
+                player => <option key={player.name}
+                                  value={player.name}>{player.name}</option>
+              )}
+            </select>
+          </div>
+          <div className='form-group'>
+            <label>Winner</label>
+            <select name="result" className='form-control'onChange={handleChange} value={this.state.result}>
+              <option value=""></option>
+              <option value={self.state.playerOne}>{self.state.playerOne}</option>
+              <option value={self.state.playerTwo}>{self.state.playerTwo}</option>
+            </select>
+            <button className='btn btn-default' onClick={submitMatch}>Submit
+            </button>
+          </div>
+        </div>
         <h2>The League</h2>
-        <ol>
+        <table className='table table-striped table-bordered'>
+          <tbody>
           {props.players.sort(function(a, b) {
             return b.elo - a.elo;
           }).map(
-            (player) => <li>{player.name} - {player.elo}</li>
+            (player, index) => <tr><th>{index+1}</th><td>{player.name}</td><td>{player.elo}</td></tr>
           )}
-          <li></li>
-        </ol>
+          </tbody>
+        </table>
         <h2>Past Matches</h2>
         <ul style={{listStyle: "none"}}>
           {props.matches.map(
