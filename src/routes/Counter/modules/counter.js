@@ -3,7 +3,8 @@ import eloRank from 'elo-rank'
 // Constants
 // ------------------------------------
 export const SUBMIT_MATCH = 'SUBMIT_MATCH'
-
+export const REFRESH_MATCHES = 'REFRESH_MATCHES'
+export const REFRESH_PLAYERS = 'REFRESH_PLAYESR'
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -15,7 +16,7 @@ export function submitMatch (playerOne, playerTwo, result) {
       playerOne: playerOne,
       playerTwo: playerTwo,
       result: result,
-      date
+      date: date
     }
   }
 }
@@ -65,22 +66,24 @@ const ACTION_HANDLERS = {
 
     return Object.assign({}, state, {players: newPlayers, matches: state.matches.concat([action.payload]), match:{playerOne: "", playerTwo: "", result: ""}})
   },
+  [REFRESH_MATCHES] : (state, action) => {
+    return Object.assign({}, state, {matches: action.payload})
+  },
+  [REFRESH_PLAYERS] : (state, action) => {
+    return Object.assign({}, state, {players: action.payload})
+  }
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {matches: [], players: [
-  {name: "Dylan", elo: 1000},
-  {name: "Pete", elo: 1000},
-  {name: "Jimmy", elo: 1000},
-  {name: "Io", elo: 1000},
-  {name: "Steven", elo: 1000},
-  {name: "Daniel", elo: 1000}
-]}
+const initialState = {matches: [], players: []}
 
 
 export default function counterReducer (state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-  return handler ? handler(state, action) : state
+  if(action){
+    const handler = ACTION_HANDLERS[action.type]
+    return handler ? handler(state, action) : state
+  }
+  return state
 }

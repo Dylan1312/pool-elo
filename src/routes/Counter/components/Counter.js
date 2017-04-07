@@ -88,7 +88,7 @@ class Counter extends React.Component {
           {props.players.sort(function(a, b) {
             return b.elo - a.elo;
           }).map(
-            (player, index) => <tr><th>{index+1}</th><td>{player.name}</td><td>{player.elo}</td></tr>
+            (player, index) => <tr key={index}><th>{index+1}</th><td>{player.name}</td><td>{player.elo}</td></tr>
           )}
           </tbody>
         </table>

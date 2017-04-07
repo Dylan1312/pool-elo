@@ -1,14 +1,38 @@
-import { applyMiddleware, compose, createStore } from 'redux'
+import {applyMiddleware, compose, createStore} from 'redux'
 import thunk from 'redux-thunk'
-import { browserHistory } from 'react-router'
+import {browserHistory} from 'react-router'
 import makeRootReducer from './reducers'
-import { updateLocation } from './location'
+import {updateLocation} from './location'
+import Horizon from '@horizon/client'
+import {
+  SUBMIT_MATCH,
+  REFRESH_MATCHES,
+  REFRESH_PLAYERS
+} from '../routes/Counter/modules/counter'
 
 export default (initialState = {}) => {
+
+  // DB!
+  const horizon = Horizon({host: 'localhost:8181'})
+  horizon.connect()
+  const matches = horizon("matches")
+  const players = horizon("players")
+
+  let horizonMiddleware = (store) => (next) => (action) => {
+    let result = next(action)
+
+    if (action.type == SUBMIT_MATCH) {
+      let state = store.getState()
+      matches.store(state.app.matches)
+      players.store(state.app.players)
+    }
+    return result
+  }
+
   // ======================================================
   // Middleware Configuration
   // ======================================================
-  const middleware = [thunk]
+  const middleware = [thunk, horizonMiddleware]
 
   // ======================================================
   // Store Enhancers
@@ -35,10 +59,46 @@ export default (initialState = {}) => {
       ...enhancers
     )
   )
-  store.asyncReducers = {}
+
+  matches.watch().subscribe(
+    (matches) => {
+      store.dispatch({
+        type: REFRESH_MATCHES,
+        payload: matches
+      })
+    }
+  )
+
+  players.watch().subscribe(
+    (players) => {
+      store.dispatch({
+        type: REFRESH_PLAYERS,
+        payload: players
+      })
+    }
+  )
+
+  if (players.fetch().subscribe(
+      result => {
+        console.log(result, "result")
+        if (result.length == 0) {
+          players.store([
+            {name: "Dylan", elo: 1000},
+            {name: "Pete", elo: 1000},
+            {name: "Jimmy", elo: 1000},
+            {name: "Io", elo: 1000},
+            {name: "Steven", elo: 1000},
+            {name: "Daniel", elo: 1000},
+            {name: "Tim", elo: 1000}])
+        }
+      }
+    ))
+
+    store.asyncReducers = {}
 
   // To unsubscribe, invoke `store.unsubscribeHistory()` anytime
   store.unsubscribeHistory = browserHistory.listen(updateLocation(store))
+
 
   if (module.hot) {
     module.hot.accept('./reducers', () => {
