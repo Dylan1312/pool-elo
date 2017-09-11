@@ -49,7 +49,7 @@ export const actions = {
 const ACTION_HANDLERS = {
   [SUBMIT_MATCH]    : (state, action) => {
 
-    let elo = eloRank(24)
+    let elo = new eloRank(24)
 
     let playerOne = state.players.filter((player) => {return player.name == action.payload.playerOne})[0]
     let playerTwo = state.players.filter((player) => {return player.name == action.payload.playerTwo})[0]

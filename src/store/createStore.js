@@ -13,7 +13,7 @@ import {
 export default (initialState = {}) => {
 
   // DB!
-  const horizon = Horizon({host: 'localhost:8181'})
+  const horizon = Horizon({host: 'admin002.spotx.belfast.lod:8181'})
   horizon.connect()
   const matches = horizon("matches")
   const players = horizon("players")
@@ -87,9 +87,29 @@ export default (initialState = {}) => {
             {name: "Pete", elo: 1000},
             {name: "Jimmy", elo: 1000},
             {name: "Io", elo: 1000},
-            {name: "Steven", elo: 1000},
-            {name: "Daniel", elo: 1000},
-            {name: "Tim", elo: 1000}])
+            {name: "Stephen", elo: 1000},
+            {name: "Rory", elo: 1000},
+            {name: "Tim", elo: 1000},
+            {name: "David", elo: 1000},
+            {name: "Charlie", elo: 1000},
+            {name: "Cormac", elo: 1000},
+            {name: "Brian", elo: 1000},
+            {name: "Fiona", elo: 1000},
+            {name: "Gavin", elo: 1000},
+            {name: "Glenn", elo: 1000},
+            {name: "Gregor", elo: 1000},
+            {name: "Jen", elo: 1000},
+            {name: "Jonathan", elo: 1000},
+            {name: "Josh", elo: 1000},
+            {name: "Matthew", elo: 1000},
+            {name: "Oonagh", elo: 1000},
+            {name: "Niall", elo: 1000},
+            {name: "Piotr", elo: 1000},
+            {name: "Shai", elo: 1000},
+            {name: "Xiaolian", elo: 1000},
+            {name: "Ashton", elo: 1000},
+            {name: "Charlie", elo: 1000},
+            {name: "Kevin", elo: 1000}])
         }
       }
     ))

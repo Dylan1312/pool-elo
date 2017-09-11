@@ -12,3 +12,14 @@ horizon:
     - rethinkdb
   ports:
     - "8181:8181"
+
+app:
+  image: registry.spotxchange.com:5000/spotxmastersleague
+  ports:
+    - "1337:8043"
+  links:
+    - horizon
+    - rethinkdb
+  environment:
+    - server_host=localhost
+    - server_port=1337
