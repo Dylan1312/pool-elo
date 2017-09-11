@@ -7,7 +7,7 @@ RUN npm install
 
 ADD . /mycode
 
-RUN npm run deploy
+RUN npm run deploy:prod
 
 FROM pierrezemb/gostatic
 

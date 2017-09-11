@@ -1,9 +1,13 @@
 import { combineReducers } from 'redux'
 import locationReducer from './location'
 
+const counterReducer = require('../routes/Counter/modules/counter').default
+
+
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
     location: locationReducer,
+    app: counterReducer,
     ...asyncReducers
   })
 }
