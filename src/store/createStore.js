@@ -13,7 +13,8 @@ import {
 export default (initialState = {}) => {
 
   // DB!
-  const horizon = Horizon({host: 'admin002.spotx.belfast.lod:8181'})
+  var horizon_host = window.location.hostname + ":8181";
+  const horizon = Horizon({host: horizon_host})
   horizon.connect()
   const matches = horizon("matches")
   const players = horizon("players")
